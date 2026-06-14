@@ -221,6 +221,16 @@ const TEAMS = {
   'Turkey':         {r:33, p:1485, c:'UEFA',     e:1720, cn:'土耳其'},
   'Ivory Coast':    {r:37, p:1435, c:'CAF',      e:1670, cn:'科特迪瓦'},
   'Haiti':          {r:67, p:1220, c:'CONCACAF', e:1390, cn:'海地'},
+  'Norway':         {r:12, p:1720, c:'UEFA',     e:1980, cn:'挪威'},
+  'Czech Republic': {r:28, p:1525, c:'UEFA',     e:1770, cn:'捷克'},
+  'Algeria':        {r:30, p:1510, c:'CAF',      e:1750, cn:'阿尔及利亚'},
+  'Paraguay':       {r:48, p:1350, c:'CONMEBOL', e:1640, cn:'巴拉圭'},
+  'Bosnia':         {r:38, p:1420, c:'UEFA',     e:1690, cn:'波黑'},
+  'Ghana':          {r:50, p:1340, c:'CAF',      e:1630, cn:'加纳'},
+  'Congo DR':       {r:56, p:1320, c:'CAF',      e:1600, cn:'民主刚果'},
+  'Cape Verde':     {r:55, p:1330, c:'CAF',      e:1610, cn:'佛得角'},
+  'Uzbekistan':     {r:52, p:1330, c:'AFC',      e:1605, cn:'乌兹别克斯坦'},
+  'Jordan':         {r:58, p:1310, c:'AFC',      e:1580, cn:'约旦'},
 };
 
 const ALIASES = {
@@ -244,6 +254,12 @@ const ALIASES = {
   '伊拉克':'Iraq','南非':'South Africa','新西兰':'New Zealand',
   '厄瓜多尔':'Ecuador','瑞典':'Sweden','突尼斯':'Tunisia','土耳其':'Turkey',
   '海地':'Haiti','新西兰':'New Zealand',
+  '挪威':'Norway','捷克':'Czech Republic','阿尔及利亚':'Algeria',
+  '巴拉圭':'Paraguay','波黑':'Bosnia','加纳':'Ghana','民主刚果':'Congo DR',
+  '刚果':'Congo DR','佛得角':'Cape Verde','乌兹别克斯坦':'Uzbekistan','约旦':'Jordan',
+  'czechia':'Czech Republic','bosnia':'Bosnia','uzbekistan':'Uzbekistan',
+  'cape verde':'Cape Verde','norway':'Norway','algeria':'Algeria',
+  'ghana':'Ghana','jordan':'Jordan','paraguay':'Paraguay',
 };
 
 // ==================== 历史对战数据 ====================
@@ -285,22 +301,30 @@ const H2H = {
   'Netherlands-Japan': {m:3,  w:[2,1,0],  last:'2013-11-16',ls:'2-2',note:'友谊赛'},
   'Netherlands-Sweden':{m:25, w:[11,6,8], last:'2017-10-10',ls:'2-0',note:'2018世预赛'},
   'Netherlands-Tunisia':{m:3,w:[2,1,0],  last:'2022-12-09',ls:'3-0',note:'2022世界杯小组赛'},
+  'France-Norway':     {m:15,w:[7,4,4],  last:'2023-09-12',ls:'2-1',note:'姆巴佩vs哈兰德·欧预赛'},
+  'Spain-Uruguay':     {m:11,w:[6,3,2],  last:'2019-06-07',ls:'2-1',note:'友谊赛·两届世界冠军对决'},
+  'Brazil-Morocco':    {m:3, w:[2,0,1],  last:'2023-03-25',ls:'1-2',note:'2023友谊赛·摩洛哥爆冷'},
+  'Argentina-Algeria': {m:1, w:[1,0,0],  last:'2007-06-05',ls:'4-3',note:'梅西首秀帽子戏法'},
+  'England-Croatia':   {m:11,w:[6,2,3],  last:'2022-12-09',ls:'2-1',note:'2022世界杯1/4决赛'},
+  'Portugal-Colombia': {m:4, w:[2,1,1],  last:'2019-10-15',ls:'3-2',note:'友谊赛'},
+  'Belgium-Iran':      {m:1, w:[1,0,0],  last:'2014-06-17',ls:'1-0',note:'2014世界杯小组赛'},
+  'Mexico-Korea Republic':{m:15,w:[8,3,4],last:'2022-11-26',ls:'2-1',note:'2022世界杯小组赛'},
 };
 
 // ==================== GROUPS ====================
 const GROUPS = {
-  'A':['Canada','Mexico','Hungary','Saudi Arabia'],
-  'B':['Argentina','Uruguay','Iran','Ukraine'],
-  'C':['France','USA','South Africa','UAE'],
-  'D':['Brazil','Switzerland','Senegal','China PR'],
-  'E':['Germany','Ecuador','Ivory Coast','Curacao'],
+  'A':['Mexico','South Africa','Korea Republic','Czech Republic'],
+  'B':['Canada','Bosnia','Qatar','Switzerland'],
+  'C':['Brazil','Morocco','Haiti','Scotland'],
+  'D':['USA','Paraguay','Australia','Turkey'],
+  'E':['Germany','Curacao','Ivory Coast','Ecuador'],
   'F':['Netherlands','Japan','Sweden','Tunisia'],
-  'G':['Spain','Belgium','Nigeria','Iraq'],
-  'H':['Portugal','Denmark','Chile','Australia'],
-  'I':['Italy','Croatia','Egypt','Jamaica'],
-  'J':['England','Colombia','Costa Rica','Qatar'],
-  'K':['Austria','Serbia','Scotland','Mali'],
-  'L':['Korea Republic','Poland','Peru','Haiti'],
+  'G':['Belgium','Egypt','Iran','New Zealand'],
+  'H':['Spain','Cape Verde','Saudi Arabia','Uruguay'],
+  'I':['France','Senegal','Iraq','Norway'],
+  'J':['Argentina','Algeria','Austria','Jordan'],
+  'K':['Portugal','Congo DR','Uzbekistan','Colombia'],
+  'L':['England','Croatia','Ghana','Panama'],
 };
 
 const HOSTS = new Set(['USA','Canada','Mexico']);
