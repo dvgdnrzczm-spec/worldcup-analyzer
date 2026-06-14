@@ -1,0 +1,9 @@
+# 世界杯量化分析工具 — 依赖
+# 核心功能仅需 Python 3.8+ 标准库 (math, dataclasses, etc.)
+# 无需额外安装即可运行基本分析
+
+# 可选依赖 (增强输出):
+# tabulate - 更美观的表格输出
+# rich     - 富文本终端输出 (彩色表格、进度条等)
+# requests - 从API获取实时赔率
+# beautifulsoup4 - 网页赔率抓取 (请遵守网站ToS)
