@@ -87,6 +87,7 @@ input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
   <div class="tabs">
     <button class="tab active" onclick="switchTab('match')">单场分析</button>
     <button class="tab" onclick="switchTab('group')">小组一览</button>
+    <button class="tab" onclick="switchTab('odds')">今日赔率</button>
     <button class="tab" onclick="switchTab('about')">模型说明</button>
   </div>
 
@@ -146,6 +147,11 @@ input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
   <!-- Group Tab -->
   <div id="tab-group" style="display:none;">
     <div class="card"><h2>🏆 小组赛对阵</h2><select id="groupSelect" onchange="showGroup()" style="margin-bottom:10px;"><option value="">选择小组...</option></select><div id="groupResults"></div></div>
+  </div>
+
+  <!-- Odds Tab -->
+  <div id="tab-odds" style="display:none;">
+    <div class="card"><h2>💰 今日主流赔率</h2><div id="oddsContent">加载中...</div></div>
   </div>
 
   <!-- About Tab -->
@@ -326,6 +332,83 @@ const GROUPS = {
   'K':['Portugal','Congo DR','Uzbekistan','Colombia'],
   'L':['England','Croatia','Ghana','Panama'],
 };
+
+// ==================== 实时赔率数据 ====================
+const LIVE_ODDS = {
+  updated: '2026-06-14 20:30 CST',
+  '2026-06-14': [
+    {
+      teamA:'Germany',teamB:'Curacao',group:'E',time:'06/15 01:00',
+      bookmakers:{'bet365':{h:1.03,d:17.00,a:34.00},'FanDuel':{h:1.05,d:18.00,a:41.00},'Sky Bet':{h:1.04,d:19.00,a:34.00},'Betfair':{h:1.03,d:18.00,a:34.00},'William Hill':{h:1.04,d:17.00,a:34.00}},
+      bestOdds:{home:'bet365',hval:1.03,draw:'Sky Bet',dval:19.00,away:'FanDuel',aval:41.00},
+    },
+    {
+      teamA:'Netherlands',teamB:'Japan',group:'F',time:'06/15 04:00',
+      bookmakers:{'bet365':{h:2.00,d:3.60,a:3.60},'FanDuel':{h:1.95,d:3.50,a:3.70},'NEO.bet':{h:2.00,d:3.50,a:3.70},'WINLINE':{h:2.05,d:3.55,a:3.60},'Ladbrokes':{h:2.05,d:3.60,a:3.70}},
+      bestOdds:{home:'FanDuel',hval:1.95,draw:'FanDuel',dval:3.50,away:'FanDuel',aval:3.70},
+    },
+    {
+      teamA:'Ivory Coast',teamB:'Ecuador',group:'E',time:'06/15 07:00',
+      bookmakers:{'bet365':{h:3.48,d:2.88,a:2.52},'FanDuel':{h:3.40,d:2.85,a:2.40},'William Hill':{h:3.50,d:2.90,a:2.50}},
+      bestOdds:{home:'William Hill',hval:3.50,draw:'William Hill',dval:2.90,away:'bet365',aval:2.52},
+    },
+    {
+      teamA:'Sweden',teamB:'Tunisia',group:'F',time:'06/15 10:00',
+      bookmakers:{'bet365':{h:1.96,d:3.50,a:4.25},'FanDuel':{h:1.91,d:3.40,a:4.50},'William Hill':{h:2.00,d:3.50,a:4.20}},
+      bestOdds:{home:'FanDuel',hval:1.91,draw:'FanDuel',dval:3.40,away:'FanDuel',aval:4.50},
+    },
+  ]
+};
+
+function getMatchOdds(teamA, teamB) {
+  const dateKey = '2026-06-14'; // current date
+  const dayOdds = LIVE_ODDS[dateKey];
+  if (!dayOdds) return null;
+  for (const m of dayOdds) {
+    const ra=resolveTeam(m.teamA), rb=resolveTeam(m.teamB);
+    const ua=resolveTeam(teamA), ub=resolveTeam(teamB);
+    if ((ra===ua && rb===ub) || (ra===ub && rb===ua)) return m;
+  }
+  return null;
+}
+
+function renderOddsTab() {
+  let html='';
+  const dateKey = '2026-06-14';
+  const dayOdds = LIVE_ODDS[dateKey];
+  if (!dayOdds) return '<p style="color:var(--dim);">暂无今日赔率数据</p>';
+
+  html += `<div style="font-size:0.78em;color:var(--dim);margin-bottom:12px;">📅 更新时间: ${LIVE_ODDS.updated} · 数据来源: bet365/FanDuel/Sky Bet 等</div>`;
+
+  for (const m of dayOdds) {
+    const cnA = TEAMS[resolveTeam(m.teamA)]?.cn || m.teamA;
+    const cnB = TEAMS[resolveTeam(m.teamB)]?.cn || m.teamB;
+    html += `<div class="card"><h2>${cnA} vs ${cnB} <span style="font-size:0.7em;color:var(--dim);">${m.group}组 · ${m.time}</span></h2>`;
+    html += `<table class="odds-ref-table"><tr><th>机构</th><th>${cnA}胜</th><th>平局</th><th>${cnB}胜</th></tr>`;
+    for (const [bk, odds] of Object.entries(m.bookmakers)) {
+      const hBest = bk === m.bestOdds.home ? 'style="color:var(--green);font-weight:700;"' : '';
+      const dBest = bk === m.bestOdds.draw ? 'style="color:var(--green);font-weight:700;"' : '';
+      const aBest = bk === m.bestOdds.away ? 'style="color:var(--green);font-weight:700;"' : '';
+      html += `<tr><td>${bk}</td><td ${hBest}>${odds.h.toFixed(2)}</td><td ${dBest}>${odds.d.toFixed(2)}</td><td ${aBest}>${odds.a.toFixed(2)}</td></tr>`;
+    }
+    html += `</table>`;
+    // Best odds summary
+    html += `<div style="font-size:0.75em;margin-top:6px;color:var(--dim);">`;
+    html += `🟢 最佳赔率: ${cnA}胜 <b style="color:var(--green);">${m.bestOdds.hval}</b> (${m.bestOdds.home}) | `;
+    html += `平 <b style="color:var(--green);">${m.bestOdds.dval}</b> (${m.bestOdds.draw}) | `;
+    html += `${cnB}胜 <b style="color:var(--green);">${m.bestOdds.aval}</b> (${m.bestOdds.away})`;
+    html += `</div>`;
+    // Quick analyze button
+    html += `<button class="btn btn-sm" style="margin-top:8px;" onclick="document.getElementById('teamA').value='${cnA}';document.getElementById('teamB').value='${cnB}';`;
+    html += `document.getElementById('oddsA').value=${m.bookmakers['bet365'].h};`;
+    html += `document.getElementById('oddsDraw').value=${m.bookmakers['bet365'].d};`;
+    html += `document.getElementById('oddsB').value=${m.bookmakers['bet365'].a};`;
+    html += `document.getElementById('oddsToggle').checked=true;toggleOdds();switchTab('match');runAnalysis();">🔍 一键分析 (bet365赔率)</button>`;
+    html += `</div>`;
+  }
+  html += `<div style="font-size:0.7em;color:var(--dim);text-align:center;margin-top:8px;">⚠ 赔率实时变动，仅供参考 · 绿色高亮为当日该选项最佳赔率</div>`;
+  return html;
+}
 
 const HOSTS = new Set(['USA','Canada','Mexico']);
 const AVG_GOALS = 1.35, AVG_PTS = 1500, ATT_EXP = 1.6, DEF_EXP = 1.1;
@@ -587,11 +670,13 @@ function renderResults(pred) {
 
 // ==================== UI ====================
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['match','group','about'][i]===tab));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['match','group','odds','about'][i]===tab));
   document.getElementById('tab-match').style.display=tab==='match'?'block':'none';
   document.getElementById('tab-group').style.display=tab==='group'?'block':'none';
+  document.getElementById('tab-odds').style.display=tab==='odds'?'block':'none';
   document.getElementById('tab-about').style.display=tab==='about'?'block':'none';
   if (tab==='group') initGroupTab();
+  if (tab==='odds') document.getElementById('oddsContent').innerHTML=renderOddsTab();
 }
 function toggleOdds(){document.getElementById('oddsRow').style.display=document.getElementById('oddsToggle').checked?'grid':'none';}
 function toggleAdj(){document.getElementById('adjRow').style.display=document.getElementById('adjToggle').checked?'block':'none';}
