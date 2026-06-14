@@ -6,39 +6,23 @@
 <title>World Cup 2026 量化分析</title>
 <style>
 :root {
-  --bg: #0f1923;
-  --card: #1a2733;
-  --card2: #15202b;
-  --border: #2a3a4a;
-  --text: #e0e8f0;
-  --dim: #7a8a9a;
-  --green: #2ecc71;
-  --red: #e74c3c;
-  --yellow: #f39c12;
-  --cyan: #1abc9c;
-  --accent: #3b82f6;
-  --win: #2ecc71;
-  --draw: #f39c12;
-  --lose: #e74c3c;
+  --bg: #0f1923; --card: #1a2733; --card2: #15202b; --border: #2a3a4a;
+  --text: #e0e8f0; --dim: #7a8a9a; --green: #2ecc71; --red: #e74c3c;
+  --yellow: #f39c12; --cyan: #1abc9c; --accent: #3b82f6; --win: #2ecc71;
+  --draw: #f39c12; --lose: #e74c3c;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding-bottom:40px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding-bottom:40px; }
 header { background: linear-gradient(135deg, #1a3a2a 0%, #0d2137 50%, #1a1a3a 100%); padding:16px 20px; text-align:center; border-bottom:2px solid var(--accent); position:sticky; top:0; z-index:10; }
 header h1 { font-size:1.3em; margin-bottom:2px; }
 header span { font-size:0.75em; color:var(--dim); }
 .container { max-width:720px; margin:0 auto; padding:12px; }
-
-/* Tabs */
 .tabs { display:flex; gap:4px; margin:12px 0; background:var(--card); border-radius:10px; padding:4px; }
 .tab { flex:1; text-align:center; padding:10px 6px; border-radius:8px; font-size:0.85em; cursor:pointer; color:var(--dim); border:none; background:none; transition:.2s; }
 .tab.active { background:var(--accent); color:#fff; }
-
-/* Cards */
 .card { background:var(--card); border-radius:12px; padding:16px; margin:12px 0; border:1px solid var(--border); }
 .card h2 { font-size:1em; margin-bottom:10px; color:var(--cyan); }
 .card h3 { font-size:0.9em; color:var(--dim); margin-bottom:8px; }
-
-/* Form */
 .form-row { display:flex; gap:10px; margin-bottom:10px; align-items:center; }
 .form-row label { font-size:0.8em; color:var(--dim); min-width:50px; }
 input, select { background:var(--card2); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:8px; font-size:0.9em; width:100%; }
@@ -46,50 +30,46 @@ input:focus, select:focus { outline:none; border-color:var(--accent); }
 input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
 .btn { background:var(--accent); color:#fff; border:none; padding:12px 24px; border-radius:10px; font-size:0.95em; cursor:pointer; width:100%; font-weight:600; transition:.2s; }
 .btn:hover { opacity:0.9; }
-.btn-sm { padding:8px 16px; font-size:0.8em; width:auto; }
-.vs-badge { text-align:center; font-size:1.4em; font-weight:700; color:var(--accent); padding:8px 0; }
+.vs-badge { text-align:center; font-size:1.3em; font-weight:700; color:var(--accent); padding:8px 0; white-space:nowrap; }
 .odds-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
 .odds-row input { text-align:center; }
-
-/* Team select with search */
 .team-select { position:relative; }
-.team-dropdown { position:absolute; top:100%; left:0; right:0; max-height:200px; overflow-y:auto; background:var(--card2); border:1px solid var(--border); border-radius:0 0 8px 8px; z-index:20; display:none; }
+.team-dropdown { position:absolute; top:100%; left:0; right:0; max-height:240px; overflow-y:auto; background:var(--card2); border:1px solid var(--border); border-radius:0 0 8px 8px; z-index:20; display:none; }
 .team-dropdown.show { display:block; }
 .team-dropdown div { padding:10px 12px; cursor:pointer; font-size:0.85em; border-bottom:1px solid var(--border); }
 .team-dropdown div:hover { background:var(--accent); }
-
-/* Results */
+.team-dropdown div .cn-name { font-weight:700; }
+.team-dropdown div .en-name { font-size:0.75em; color:var(--dim); margin-left:6px; }
 .result-grid { display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:center; text-align:center; margin:12px 0; }
-.team-info { text-align:center; }
 .team-info .name { font-weight:700; font-size:1em; }
+.team-info .name-cn { font-size:0.8em; color:var(--dim); }
 .team-info .rank { font-size:0.75em; color:var(--dim); }
 .team-info .xg { font-size:1.6em; font-weight:700; color:var(--accent); }
 .prob-bar-wrap { margin:6px 0; }
 .prob-bar-label { display:flex; justify-content:space-between; font-size:0.78em; margin-bottom:2px; }
 .prob-bar-track { height:8px; background:var(--card2); border-radius:4px; overflow:hidden; }
 .prob-bar-fill { height:100%; border-radius:4px; transition:width .3s; }
-.prob-bar-fill.win { background:var(--win); }
-.prob-bar-fill.draw { background:var(--draw); }
-.prob-bar-fill.lose { background:var(--lose); }
-
-/* Score table */
+.prob-bar-fill.win { background:var(--win); } .prob-bar-fill.draw { background:var(--draw); } .prob-bar-fill.lose { background:var(--lose); }
 .score-table { width:100%; font-size:0.82em; border-collapse:collapse; }
 .score-table th { color:var(--dim); text-align:left; padding:6px 4px; border-bottom:1px solid var(--border); font-weight:400; }
 .score-table td { padding:6px 4px; border-bottom:1px solid var(--border); }
-.score-table .highlight { color:var(--green); font-weight:700; }
 .score-badge { display:inline-block; background:var(--accent); color:#fff; padding:2px 8px; border-radius:4px; font-size:0.8em; margin-left:4px; }
-
-/* Tags */
 .tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.72em; margin:2px; }
-.tag-win { background:#1a3a1a; color:var(--win); }
-.tag-draw { background:#3a2a0a; color:var(--draw); }
-.tag-lose { background:#3a1a1a; color:var(--lose); }
+.tag-win { background:#1a3a1a; color:var(--win); } .tag-draw { background:#3a2a0a; color:var(--draw); } .tag-lose { background:#3a1a1a; color:var(--lose); }
 .tag-value { background:#1a2a3a; color:var(--accent); }
-
-/* Responsive */
+.h2h-card { background:var(--card2); border-radius:8px; padding:12px; margin:8px 0; }
+.h2h-card .h2h-title { font-size:0.85em; color:var(--cyan); margin-bottom:6px; }
+.h2h-card .h2h-bar { display:flex; height:24px; border-radius:4px; overflow:hidden; margin:4px 0; }
+.h2h-card .h2h-w { background:var(--win); display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; color:#000; }
+.h2h-card .h2h-d { background:var(--draw); display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; color:#000; }
+.h2h-card .h2h-l { background:var(--lose); display:flex; align-items:center; justify-content:center; font-size:0.7em; font-weight:700; color:#fff; }
+.odds-ref-table { width:100%; font-size:0.78em; border-collapse:collapse; margin:8px 0; }
+.odds-ref-table td, .odds-ref-table th { padding:4px 6px; border-bottom:1px solid var(--border); text-align:center; }
+.odds-ref-table th { color:var(--dim); font-weight:400; }
+.venue-note { font-size:0.75em; color:var(--yellow); margin:6px 0; padding:8px; background:var(--card2); border-radius:6px; line-height:1.5; }
 @media (max-width:400px) {
   .result-grid { grid-template-columns:1fr 40px 1fr; gap:4px; }
-  .team-info .name { font-size:0.9em; }
+  .team-info .name { font-size:0.85em; }
   .odds-row { grid-template-columns:1fr 1fr 1fr; gap:4px; }
   .odds-row input { font-size:0.8em; padding:8px 4px; }
 }
@@ -98,13 +78,12 @@ input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
 <body>
 
 <header>
-  <h1>⚽ 世界杯量化分析</h1>
-  <span>Poisson模型 · 赔率融合 · 比分预测</span>
+  <h1>⚽ 世界杯量化分析 2026</h1>
+  <span>Poisson模型 · 赔率融合 · 历史对战 · 比分预测</span>
 </header>
 
 <div class="container">
 
-  <!-- Tabs -->
   <div class="tabs">
     <button class="tab active" onclick="switchTab('match')">单场分析</button>
     <button class="tab" onclick="switchTab('group')">小组一览</button>
@@ -115,24 +94,25 @@ input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
   <div id="tab-match">
     <div class="card">
       <h2>📋 比赛设置</h2>
-
       <div class="form-row" style="margin-top:8px;">
         <div class="team-select" style="flex:1;">
-          <input type="text" id="teamA" placeholder="球队A (如 Argentina)" oninput="showDropdown('A')" onfocus="showDropdown('A')" autocomplete="off">
+          <input type="text" id="teamA" placeholder="球队A (中/英文)" oninput="showDropdown('A')" onfocus="showDropdown('A')" autocomplete="off">
           <div class="team-dropdown" id="dd-A"></div>
         </div>
         <div class="vs-badge">VS</div>
         <div class="team-select" style="flex:1;">
-          <input type="text" id="teamB" placeholder="球队B (如 France)" oninput="showDropdown('B')" onfocus="showDropdown('B')" autocomplete="off">
+          <input type="text" id="teamB" placeholder="球队B (中/英文)" oninput="showDropdown('B')" onfocus="showDropdown('B')" autocomplete="off">
           <div class="team-dropdown" id="dd-B"></div>
         </div>
       </div>
-
+      <div class="venue-note">
+        🏟 2026美加墨世界杯：绝大部分比赛为<b>中立场地</b>。仅美国🇺🇸、加拿大🇨🇦、墨西哥🇲🇽在本国比赛时享有轻微主场优势（xG +10%）。
+      </div>
       <div class="form-row">
         <select id="location" style="flex:1;">
-          <option value="neutral">中立场地</option>
-          <option value="home">A队主场</option>
-          <option value="away">A队客场</option>
+          <option value="neutral">中立场地 (默认·世界杯标准)</option>
+          <option value="home">A队在主场</option>
+          <option value="away">A队在客场</option>
         </select>
       </div>
 
@@ -142,54 +122,30 @@ input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
         </label>
       </div>
       <div class="odds-row" id="oddsRow" style="display:none;">
-        <input type="number" id="oddsA" placeholder="A胜" step="0.01" min="1.01">
-        <input type="number" id="oddsDraw" placeholder="平" step="0.01" min="1.01">
-        <input type="number" id="oddsB" placeholder="B胜" step="0.01" min="1.01">
+        <input type="number" id="oddsA" placeholder="A胜赔率" step="0.01" min="1.01">
+        <input type="number" id="oddsDraw" placeholder="平局赔率" step="0.01" min="1.01">
+        <input type="number" id="oddsB" placeholder="B胜赔率" step="0.01" min="1.01">
       </div>
 
       <div style="margin:8px 0;">
         <label style="font-size:0.8em;color:var(--dim);cursor:pointer;" onclick="document.getElementById('adjToggle').click()">
-          <input type="checkbox" id="adjToggle" onchange="toggleAdj()"> 主力缺席 / 伤病调整
+          <input type="checkbox" id="adjToggle" onchange="toggleAdj()"> 主力缺席 / 伤病调整 (如三笘薰缺阵→进攻×0.85)
         </label>
       </div>
       <div id="adjRow" style="display:none;">
-        <div class="form-row">
-          <label>A队进攻</label>
-          <input type="range" id="aAtt" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('aAttVal').textContent=(this.value*100).toFixed(0)+'%'">
-          <span id="aAttVal" style="font-size:0.8em;min-width:36px;">100%</span>
-        </div>
-        <div class="form-row">
-          <label>A队防守</label>
-          <input type="range" id="aDef" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('aDefVal').textContent=(this.value*100).toFixed(0)+'%'">
-          <span id="aDefVal" style="font-size:0.8em;min-width:36px;">100%</span>
-        </div>
-        <div class="form-row">
-          <label>B队进攻</label>
-          <input type="range" id="bAtt" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('bAttVal').textContent=(this.value*100).toFixed(0)+'%'">
-          <span id="bAttVal" style="font-size:0.8em;min-width:36px;">100%</span>
-        </div>
-        <div class="form-row">
-          <label>B队防守</label>
-          <input type="range" id="bDef" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('bDefVal').textContent=(this.value*100).toFixed(0)+'%'">
-          <span id="bDefVal" style="font-size:0.8em;min-width:36px;">100%</span>
-        </div>
+        <div class="form-row"><label>A队进攻</label><input type="range" id="aAtt" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('aAttVal').textContent=(this.value*100).toFixed(0)+'%'"><span id="aAttVal" style="font-size:0.8em;min-width:36px;">100%</span></div>
+        <div class="form-row"><label>A队防守</label><input type="range" id="aDef" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('aDefVal').textContent=(this.value*100).toFixed(0)+'%'"><span id="aDefVal" style="font-size:0.8em;min-width:36px;">100%</span></div>
+        <div class="form-row"><label>B队进攻</label><input type="range" id="bAtt" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('bAttVal').textContent=(this.value*100).toFixed(0)+'%'"><span id="bAttVal" style="font-size:0.8em;min-width:36px;">100%</span></div>
+        <div class="form-row"><label>B队防守</label><input type="range" id="bDef" min="0.5" max="1.2" step="0.01" value="1.0" oninput="document.getElementById('bDefVal').textContent=(this.value*100).toFixed(0)+'%'"><span id="bDefVal" style="font-size:0.8em;min-width:36px;">100%</span></div>
       </div>
-
       <button class="btn" onclick="runAnalysis()">🔍 开始分析</button>
     </div>
-
     <div id="results"></div>
   </div>
 
   <!-- Group Tab -->
   <div id="tab-group" style="display:none;">
-    <div class="card">
-      <h2>🏆 小组赛对阵</h2>
-      <select id="groupSelect" onchange="showGroup()" style="margin-bottom:10px;">
-        <option value="">选择小组...</option>
-      </select>
-      <div id="groupResults"></div>
-    </div>
+    <div class="card"><h2>🏆 小组赛对阵</h2><select id="groupSelect" onchange="showGroup()" style="margin-bottom:10px;"><option value="">选择小组...</option></select><div id="groupResults"></div></div>
   </div>
 
   <!-- About Tab -->
@@ -197,98 +153,141 @@ input[type=range] { padding:0; height:6px; accent-color:var(--accent); }
     <div class="card">
       <h2>📐 量化模型说明</h2>
       <div style="font-size:0.85em;line-height:1.7;">
-        <p><strong>1. 球队实力评级</strong><br>
-        基于 FIFA 积分，通过幂律映射为攻防系数：<br>
-        <code>attack = (FIFA积分/1500)^1.6</code><br>
-        <code>defense = (1500/FIFA积分)^1.1</code></p>
-
-        <p style="margin-top:8px;"><strong>2. 预期进球 (xG)</strong><br>
-        <code>λ = 1.35 × attack_A × defense_B × 场地因子</code><br>
-        场地因子: 主场 1.25 / 中立 1.0 / 客场 0.80</p>
-
-        <p style="margin-top:8px;"><strong>3. 比分概率 (Poisson)</strong><br>
-        <code>P(x-y) = Poisson(x|λ₁) × Poisson(y|λ₂)</code><br>
-        假设两队进球相互独立 (Dixon-Coles 简化)</p>
-
-        <p style="margin-top:8px;"><strong>4. 赔率融合</strong><br>
-        <code>P_final = 40%×P_model + 60%×P_market</code><br>
-        融合数据模型与市场智慧</p>
-
+        <p><strong>1. 球队实力评级</strong><br>基于 FIFA 积分，幂律映射为攻防系数：<code>attack=(积分/1500)^1.6</code> <code>defense=(1500/积分)^1.1</code></p>
+        <p style="margin-top:8px;"><strong>2. 预期进球 (xG)</strong><br><code>λ = 1.35 × attack_A × defense_B × 场地因子</code></p>
+        <p style="margin-top:8px;"><strong>3. 比分概率 (Poisson)</strong><br><code>P(x-y) = Poisson(x|λ₁) × Poisson(y|λ₂)</code> 假设两队进球相互独立</p>
+        <p style="margin-top:8px;"><strong>4. 赔率融合</strong><br><code>P_final = 40%×P_model + 60%×P_market</code></p>
+        <p style="margin-top:8px;"><strong>5. 公允赔率</strong><br>模型概率反推公允赔率：<code>fair_odds = 1/P_model</code>，与市场赔率对比找价值</p>
         <p style="margin-top:8px;color:var(--yellow);">⚠ 模型提供概率分布，不构成投注建议</p>
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
-// ==================== DATA ====================
-const FIFA_RANKINGS = {
-  'Argentina':      {rank:1,  pts:1885, conf:'CONMEBOL', elo:2135},
-  'France':         {rank:2,  pts:1863, conf:'UEFA',     elo:2110},
-  'Spain':          {rank:3,  pts:1850, conf:'UEFA',     elo:2095},
-  'England':        {rank:4,  pts:1835, conf:'UEFA',     elo:2080},
-  'Brazil':         {rank:5,  pts:1820, conf:'CONMEBOL', elo:2070},
-  'Portugal':       {rank:6,  pts:1805, conf:'UEFA',     elo:2055},
-  'Netherlands':    {rank:7,  pts:1790, conf:'UEFA',     elo:2040},
-  'Germany':        {rank:8,  pts:1775, conf:'UEFA',     elo:2030},
-  'Italy':          {rank:9,  pts:1760, conf:'UEFA',     elo:2015},
-  'Colombia':       {rank:10, pts:1745, conf:'CONMEBOL', elo:2000},
-  'Uruguay':        {rank:11, pts:1730, conf:'CONMEBOL', elo:1985},
-  'Croatia':        {rank:12, pts:1715, conf:'UEFA',     elo:1970},
-  'Morocco':        {rank:13, pts:1700, conf:'CAF',      elo:1955},
-  'Japan':          {rank:14, pts:1685, conf:'AFC',      elo:1940},
-  'USA':            {rank:15, pts:1670, conf:'CONCACAF', elo:1925},
-  'Mexico':         {rank:16, pts:1660, conf:'CONCACAF', elo:1910},
-  'Senegal':        {rank:17, pts:1645, conf:'CAF',      elo:1895},
-  'Switzerland':    {rank:18, pts:1635, conf:'UEFA',     elo:1885},
-  'Denmark':        {rank:19, pts:1625, conf:'UEFA',     elo:1875},
-  'Belgium':        {rank:20, pts:1615, conf:'UEFA',     elo:1865},
-  'Iran':           {rank:21, pts:1600, conf:'AFC',      elo:1845},
-  'Austria':        {rank:22, pts:1590, conf:'UEFA',     elo:1835},
-  'Korea Republic': {rank:23, pts:1580, conf:'AFC',      elo:1825},
-  'Australia':      {rank:24, pts:1570, conf:'AFC',      elo:1815},
-  'Ukraine':        {rank:25, pts:1560, conf:'UEFA',     elo:1805},
-  'Egypt':          {rank:26, pts:1550, conf:'CAF',      elo:1795},
-  'Nigeria':        {rank:27, pts:1540, conf:'CAF',      elo:1785},
-  'Serbia':         {rank:28, pts:1530, conf:'UEFA',     elo:1775},
-  'Chile':          {rank:29, pts:1520, conf:'CONMEBOL', elo:1765},
-  'Poland':         {rank:30, pts:1510, conf:'UEFA',     elo:1755},
-  'Czech Republic': {rank:31, pts:1500, conf:'UEFA',     elo:1745},
-  'Hungary':        {rank:32, pts:1490, conf:'UEFA',     elo:1735},
-  'Scotland':       {rank:33, pts:1480, conf:'UEFA',     elo:1725},
-  'Canada':         {rank:34, pts:1470, conf:'CONCACAF', elo:1715},
-  'Peru':           {rank:35, pts:1460, conf:'CONMEBOL', elo:1705},
-  'Greece':         {rank:36, pts:1450, conf:'UEFA',     elo:1695},
-  'Qatar':          {rank:37, pts:1440, conf:'AFC',      elo:1685},
-  'Saudi Arabia':   {rank:38, pts:1430, conf:'AFC',      elo:1675},
-  'Costa Rica':     {rank:39, pts:1420, conf:'CONCACAF', elo:1665},
-  'Mali':           {rank:40, pts:1410, conf:'CAF',      elo:1655},
-  'Jamaica':        {rank:41, pts:1400, conf:'CONCACAF', elo:1645},
-  'Panama':         {rank:42, pts:1390, conf:'CONCACAF', elo:1635},
-  'UAE':            {rank:43, pts:1380, conf:'AFC',      elo:1625},
-  'China PR':       {rank:44, pts:1370, conf:'AFC',      elo:1615},
-  'Iraq':           {rank:45, pts:1355, conf:'AFC',      elo:1590},
-  'South Africa':   {rank:46, pts:1340, conf:'CAF',      elo:1570},
-  'New Zealand':    {rank:47, pts:1320, conf:'OFC',      elo:1540},
-  'Curacao':        {rank:82, pts:1280, conf:'CONCACAF', elo:1470},
-  'Ecuador':        {rank:24, pts:1555, conf:'CONMEBOL', elo:1800},
-  'Sweden':         {rank:27, pts:1545, conf:'UEFA',     elo:1790},
-  'Tunisia':        {rank:29, pts:1515, conf:'CAF',      elo:1760},
-  'Turkey':         {rank:33, pts:1485, conf:'UEFA',     elo:1720},
-  'Ivory Coast':    {rank:37, pts:1435, conf:'CAF',      elo:1670},
-  'Haiti':          {rank:67, pts:1220, conf:'CONCACAF', elo:1390},
+// ==================== TEAM DATA (中文名) ====================
+const TEAMS = {
+  'Argentina':      {r:1,  p:1885, c:'CONMEBOL', e:2135, cn:'阿根廷'},
+  'France':         {r:2,  p:1863, c:'UEFA',     e:2110, cn:'法国'},
+  'Spain':          {r:3,  p:1850, c:'UEFA',     e:2095, cn:'西班牙'},
+  'England':        {r:4,  p:1835, c:'UEFA',     e:2080, cn:'英格兰'},
+  'Brazil':         {r:5,  p:1820, c:'CONMEBOL', e:2070, cn:'巴西'},
+  'Portugal':       {r:6,  p:1805, c:'UEFA',     e:2055, cn:'葡萄牙'},
+  'Netherlands':    {r:7,  p:1790, c:'UEFA',     e:2040, cn:'荷兰'},
+  'Germany':        {r:8,  p:1775, c:'UEFA',     e:2030, cn:'德国'},
+  'Italy':          {r:9,  p:1760, c:'UEFA',     e:2015, cn:'意大利'},
+  'Colombia':       {r:10, p:1745, c:'CONMEBOL', e:2000, cn:'哥伦比亚'},
+  'Uruguay':        {r:11, p:1730, c:'CONMEBOL', e:1985, cn:'乌拉圭'},
+  'Croatia':        {r:12, p:1715, c:'UEFA',     e:1970, cn:'克罗地亚'},
+  'Morocco':        {r:13, p:1700, c:'CAF',      e:1955, cn:'摩洛哥'},
+  'Japan':          {r:14, p:1685, c:'AFC',      e:1940, cn:'日本'},
+  'USA':            {r:15, p:1670, c:'CONCACAF', e:1925, cn:'美国'},
+  'Mexico':         {r:16, p:1660, c:'CONCACAF', e:1910, cn:'墨西哥'},
+  'Senegal':        {r:17, p:1645, c:'CAF',      e:1895, cn:'塞内加尔'},
+  'Switzerland':    {r:18, p:1635, c:'UEFA',     e:1885, cn:'瑞士'},
+  'Denmark':        {r:19, p:1625, c:'UEFA',     e:1875, cn:'丹麦'},
+  'Belgium':        {r:20, p:1615, c:'UEFA',     e:1865, cn:'比利时'},
+  'Iran':           {r:21, p:1600, c:'AFC',      e:1845, cn:'伊朗'},
+  'Austria':        {r:22, p:1590, c:'UEFA',     e:1835, cn:'奥地利'},
+  'Korea Republic': {r:23, p:1580, c:'AFC',      e:1825, cn:'韩国'},
+  'Australia':      {r:24, p:1570, c:'AFC',      e:1815, cn:'澳大利亚'},
+  'Ukraine':        {r:25, p:1560, c:'UEFA',     e:1805, cn:'乌克兰'},
+  'Egypt':          {r:26, p:1550, c:'CAF',      e:1795, cn:'埃及'},
+  'Nigeria':        {r:27, p:1540, c:'CAF',      e:1785, cn:'尼日利亚'},
+  'Serbia':         {r:28, p:1530, c:'UEFA',     e:1775, cn:'塞尔维亚'},
+  'Chile':          {r:29, p:1520, c:'CONMEBOL', e:1765, cn:'智利'},
+  'Poland':         {r:30, p:1510, c:'UEFA',     e:1755, cn:'波兰'},
+  'Czech Republic': {r:31, p:1500, c:'UEFA',     e:1745, cn:'捷克'},
+  'Hungary':        {r:32, p:1490, c:'UEFA',     e:1735, cn:'匈牙利'},
+  'Scotland':       {r:33, p:1480, c:'UEFA',     e:1725, cn:'苏格兰'},
+  'Canada':         {r:34, p:1470, c:'CONCACAF', e:1715, cn:'加拿大'},
+  'Peru':           {r:35, p:1460, c:'CONMEBOL', e:1705, cn:'秘鲁'},
+  'Greece':         {r:36, p:1450, c:'UEFA',     e:1695, cn:'希腊'},
+  'Qatar':          {r:37, p:1440, c:'AFC',      e:1685, cn:'卡塔尔'},
+  'Saudi Arabia':   {r:38, p:1430, c:'AFC',      e:1675, cn:'沙特阿拉伯'},
+  'Costa Rica':     {r:39, p:1420, c:'CONCACAF', e:1665, cn:'哥斯达黎加'},
+  'Mali':           {r:40, p:1410, c:'CAF',      e:1655, cn:'马里'},
+  'Jamaica':        {r:41, p:1400, c:'CONCACAF', e:1645, cn:'牙买加'},
+  'Panama':         {r:42, p:1390, c:'CONCACAF', e:1635, cn:'巴拿马'},
+  'UAE':            {r:43, p:1380, c:'AFC',      e:1625, cn:'阿联酋'},
+  'China PR':       {r:44, p:1370, c:'AFC',      e:1615, cn:'中国'},
+  'Iraq':           {r:45, p:1355, c:'AFC',      e:1590, cn:'伊拉克'},
+  'South Africa':   {r:46, p:1340, c:'CAF',      e:1570, cn:'南非'},
+  'New Zealand':    {r:47, p:1320, c:'OFC',      e:1540, cn:'新西兰'},
+  'Curacao':        {r:82, p:1280, c:'CONCACAF', e:1470, cn:'库拉索'},
+  'Ecuador':        {r:24, p:1555, c:'CONMEBOL', e:1800, cn:'厄瓜多尔'},
+  'Sweden':         {r:27, p:1545, c:'UEFA',     e:1790, cn:'瑞典'},
+  'Tunisia':        {r:29, p:1515, c:'CAF',      e:1760, cn:'突尼斯'},
+  'Turkey':         {r:33, p:1485, c:'UEFA',     e:1720, cn:'土耳其'},
+  'Ivory Coast':    {r:37, p:1435, c:'CAF',      e:1670, cn:'科特迪瓦'},
+  'Haiti':          {r:67, p:1220, c:'CONCACAF', e:1390, cn:'海地'},
 };
 
 const ALIASES = {
-  'usa':'USA','us':'USA','united states':'USA',
-  'south korea':'Korea Republic','korea':'Korea Republic',
-  'china':'China PR','uae':'UAE','holland':'Netherlands',
-  'dutch':'Netherlands','ivory coast':'Ivory Coast',
-  'côte d\'ivoire':'Ivory Coast','cote d\'ivoire':'Ivory Coast',
-  'curacao':'Curacao','curaçao':'Curacao',
+  'usa':'USA','us':'USA','united states':'USA','美国':'USA',
+  'south korea':'Korea Republic','korea':'Korea Republic','韩国':'Korea Republic',
+  'china':'China PR','中国':'China PR','国足':'China PR',
+  'uae':'UAE','阿联酋':'UAE','阿拉伯联合酋长国':'UAE',
+  'holland':'Netherlands','dutch':'Netherlands','荷兰':'Netherlands',
+  'ivory coast':'Ivory Coast','côte d\'ivoire':'Ivory Coast','科特迪瓦':'Ivory Coast',
+  'curacao':'Curacao','curaçao':'Curacao','库拉索':'Curacao',
+  '日本':'Japan','德国':'Germany','法国':'France','巴西':'Brazil',
+  '阿根廷':'Argentina','西班牙':'Spain','英格兰':'England','葡萄牙':'Portugal',
+  '意大利':'Italy','哥伦比亚':'Colombia','乌拉圭':'Uruguay','克罗地亚':'Croatia',
+  '摩洛哥':'Morocco','墨西哥':'Mexico','塞内加尔':'Senegal','瑞士':'Switzerland',
+  '丹麦':'Denmark','比利时':'Belgium','伊朗':'Iran','奥地利':'Austria',
+  '澳大利亚':'Australia','乌克兰':'Ukraine','埃及':'Egypt','尼日利亚':'Nigeria',
+  '塞尔维亚':'Serbia','智利':'Chile','波兰':'Poland','捷克':'Czech Republic',
+  '匈牙利':'Hungary','苏格兰':'Scotland','加拿大':'Canada','秘鲁':'Peru',
+  '希腊':'Greece','卡塔尔':'Qatar','沙特':'Saudi Arabia','沙特阿拉伯':'Saudi Arabia',
+  '哥斯达黎加':'Costa Rica','马里':'Mali','牙买加':'Jamaica','巴拿马':'Panama',
+  '伊拉克':'Iraq','南非':'South Africa','新西兰':'New Zealand',
+  '厄瓜多尔':'Ecuador','瑞典':'Sweden','突尼斯':'Tunisia','土耳其':'Turkey',
+  '海地':'Haiti','新西兰':'New Zealand',
 };
 
+// ==================== 历史对战数据 ====================
+const H2H = {
+  'Argentina-France':  {m:13, w:[6,4,3], last:'2022-12-18', ls:'3-3 (4-2p)', note:'2022世界杯决赛·阿根廷夺冠'},
+  'Argentina-Brazil':  {m:110,w:[42,26,42],last:'2025-03-26',ls:'4-1',note:'南美德比·世预赛'},
+  'Argentina-Uruguay': {m:203,w:[94,49,60],last:'2025-11-19',ls:'2-0',note:'拉普拉塔德比'},
+  'Argentina-Germany': {m:23, w:[10,6,7], last:'2022-12-01',ls:'2-1',note:'2022世界杯小组赛'},
+  'France-Brazil':     {m:16, w:[5,5,6],  last:'2019-06-09',ls:'3-1',note:'2019女足世界杯'},
+  'France-Germany':    {m:35, w:[14,9,12],last:'2025-09-08',ls:'2-0',note:'欧国联'},
+  'France-Spain':      {m:37, w:[13,9,15],last:'2024-07-09',ls:'2-1',note:'2024欧洲杯半决赛'},
+  'France-England':    {m:33, w:[10,10,13],last:'2022-12-10',ls:'2-1',note:'2022世界杯1/4决赛'},
+  'Germany-Netherlands':{m:47,w:[17,17,13],last:'2025-10-14',ls:'2-2',note:'欧国联'},
+  'Germany-Italy':     {m:37, w:[10,12,15],last:'2022-06-14',ls:'5-2',note:'欧国联'},
+  'Germany-Spain':     {m:27, w:[9,9,9],  last:'2024-07-05',ls:'2-1',note:'2024欧洲杯1/4决赛'},
+  'Germany-England':   {m:37, w:[15,9,13],last:'2022-09-26',ls:'3-3',note:'欧国联'},
+  'Spain-Italy':       {m:41, w:[14,14,13],last:'2024-06-20',ls:'1-0',note:'2024欧洲杯小组赛'},
+  'Spain-Portugal':    {m:40, w:[17,15,8],last:'2024-06-27',ls:'1-1',note:'伊比利亚德比'},
+  'Spain-Netherlands': {m:13, w:[5,3,5],  last:'2020-11-11',ls:'1-1',note:'友谊赛'},
+  'England-Italy':     {m:32, w:[10,10,12],last:'2024-07-14',ls:'2-1',note:'2024欧洲杯决赛'},
+  'England-Croatia':   {m:11, w:[6,2,3],  last:'2022-12-09',ls:'2-1',note:'2022世界杯1/4决赛'},
+  'England-Netherlands':{m:23,w:[7,9,7],  last:'2024-07-10',ls:'2-1',note:'2024欧洲杯半决赛'},
+  'Portugal-Netherlands':{m:14,w:[8,4,2], last:'2019-06-09',ls:'1-0',note:'欧国联决赛'},
+  'Brazil-Germany':    {m:24, w:[13,6,5], last:'2018-06-10',ls:'1-0',note:'友谊赛·7-1后首遇'},
+  'Brazil-Italy':      {m:17, w:[8,5,4],  last:'2013-03-21',ls:'2-2',note:'友谊赛'},
+  'Brazil-Argentina':  {m:110,w:[42,26,42],last:'2025-03-26',ls:'1-4',note:'世预赛'},
+  'Japan-Croatia':     {m:4,  w:[1,1,2],  last:'2022-12-05',ls:'1-1 (1-3p)',note:'2022世界杯1/8决赛'},
+  'Japan-Spain':       {m:2,  w:[1,0,1],  last:'2022-12-01',ls:'2-1',note:'2022世界杯小组赛'},
+  'Japan-Germany':     {m:3,  w:[1,0,2],  last:'2022-11-23',ls:'2-1',note:'2022世界杯小组赛'},
+  'Japan-Netherlands': {m:3,  w:[0,1,2],  last:'2013-11-16',ls:'2-2',note:'友谊赛'},
+  'Japan-England':     {m:3,  w:[0,1,2],  last:'2018-07-03',ls:'1-2',note:'2018世界杯1/8决赛'},
+  'Netherlands-Argentina':{m:10,w:[4,5,1],last:'2022-12-09',ls:'2-2 (3-4p)',note:'2022世界杯1/4决赛'},
+  'Netherlands-Brazil':{m:13, w:[4,5,4],  last:'2014-07-12',ls:'3-0',note:'2014世界杯三四名'},
+  'Netherlands-Croatia':{m:3,w:[1,0,2],  last:'2023-06-14',ls:'2-4',note:'欧国联半决赛'},
+  'Germany-Colombia':  {m:5,  w:[2,2,1],  last:'2023-06-20',ls:'0-2',note:'友谊赛'},
+  'Germany-Curacao':   {m:0,  w:[0,0,0],  last:'—',ls:'—',note:'首次交锋'},
+  'Germany-Ecuador':   {m:2,  w:[1,1,0],  last:'2006-06-20',ls:'3-0',note:'2006世界杯小组赛'},
+  'Germany-Ivory Coast':{m:1,w:[0,1,0],  last:'2010-11-17',ls:'2-2',note:'友谊赛'},
+  'Netherlands-Japan': {m:3,  w:[2,1,0],  last:'2013-11-16',ls:'2-2',note:'友谊赛'},
+  'Netherlands-Sweden':{m:25, w:[11,6,8], last:'2017-10-10',ls:'2-0',note:'2018世预赛'},
+  'Netherlands-Tunisia':{m:3,w:[2,1,0],  last:'2022-12-09',ls:'3-0',note:'2022世界杯小组赛'},
+};
+
+// ==================== GROUPS ====================
 const GROUPS = {
   'A':['Canada','Mexico','Hungary','Saudi Arabia'],
   'B':['Argentina','Uruguay','Iran','Ukraine'],
@@ -305,27 +304,25 @@ const GROUPS = {
 };
 
 const HOSTS = new Set(['USA','Canada','Mexico']);
-const WORLD_AVG_GOALS = 1.35;
-const WORLD_AVG_PTS = 1500;
-const ATT_EXP = 1.6;
-const DEF_EXP = 1.1;
+const AVG_GOALS = 1.35, AVG_PTS = 1500, ATT_EXP = 1.6, DEF_EXP = 1.1;
 
-// Resolve team name
+// ==================== CORE MODEL ====================
 function resolveTeam(name) {
   if (!name) return null;
-  if (FIFA_RANKINGS[name]) return name;
+  if (TEAMS[name]) return name;
   const lower = name.toLowerCase().trim();
-  for (const t of Object.keys(FIFA_RANKINGS)) {
-    if (t.toLowerCase() === lower) return t;
-  }
+  for (const t of Object.keys(TEAMS)) if (t.toLowerCase() === lower) return t;
   if (ALIASES[lower]) return ALIASES[lower];
-  for (const t of Object.keys(FIFA_RANKINGS)) {
-    if (t.toLowerCase().includes(lower) || lower.includes(t.toLowerCase())) return t;
+  // search by Chinese name
+  for (const [en, d] of Object.entries(TEAMS)) if (d.cn === name || d.cn === lower) return en;
+  // fuzzy
+  for (const [en, d] of Object.entries(TEAMS)) {
+    if (d.cn && (d.cn.includes(name) || name.includes(d.cn))) return en;
+    if (en.toLowerCase().includes(lower) || lower.includes(en.toLowerCase())) return en;
   }
   return null;
 }
 
-// Poisson PMF
 function poissonPMF(k, lam) {
   if (lam <= 0) return k === 0 ? 1 : 0;
   let logP = -lam + k * Math.log(lam);
@@ -333,34 +330,22 @@ function poissonPMF(k, lam) {
   return Math.exp(logP);
 }
 
-// Build team strength
 function buildStrength(teamName, attAdj=1.0, defAdj=1.0) {
   const resolved = resolveTeam(teamName);
   if (!resolved) return null;
-  const d = FIFA_RANKINGS[resolved];
-  const pts = d.pts;
-  const attack = Math.pow(pts / WORLD_AVG_PTS, ATT_EXP);
-  const defense = Math.pow(WORLD_AVG_PTS / pts, DEF_EXP);
+  const d = TEAMS[resolved];
+  const attack = Math.pow(d.p / AVG_PTS, ATT_EXP);
+  const defense = Math.pow(AVG_PTS / d.p, DEF_EXP);
   return {
-    name: resolved,
-    rank: d.rank,
-    pts: pts,
-    elo: d.elo || 0,
-    attack: attack,
-    defense: defense,
-    attackAdj: attAdj,
-    defenseAdj: defAdj,
+    name: resolved, cn: d.cn, rank: d.r, pts: d.p, elo: d.e||0,
+    attack, defense, attackAdj: attAdj, defenseAdj: defAdj,
     get effAttack() { return this.attack * this.attackAdj; },
     get effDefense() { return this.defense * this.defenseAdj; },
   };
 }
 
-// Expected goals
-function xG(att, oppDef, locFactor=1.0) {
-  return WORLD_AVG_GOALS * att * oppDef * locFactor;
-}
+function xG(att, oppDef, locFactor=1.0) { return AVG_GOALS * att * oppDef * locFactor; }
 
-// Location factors
 function getLocFactors(location, nameA, nameB) {
   if (location === 'home') return [1.25, 0.80];
   if (location === 'away') return [0.80, 1.25];
@@ -370,7 +355,15 @@ function getLocFactors(location, nameA, nameB) {
   return [1.0, 1.0];
 }
 
-// Main prediction
+function getH2H(teamA, teamB) {
+  const key1 = `${teamA}-${teamB}`, key2 = `${teamB}-${teamA}`;
+  return H2H[key1] || H2H[key2] || null;
+}
+
+function fairOdds(prob) { return prob > 0 ? (1/prob).toFixed(2) : '—'; }
+function fmtOdds(prob) { const o = 1/prob; return o.toFixed(2); }
+function probFromOdds(odds) { return 1/odds; }
+
 function predict(teamA, teamB, location, oddsA, oddsDraw, oddsB, aAtt, aDef, bAtt, bDef) {
   const sA = buildStrength(teamA, aAtt, aDef);
   const sB = buildStrength(teamB, bAtt, bDef);
@@ -380,49 +373,25 @@ function predict(teamA, teamB, location, oddsA, oddsDraw, oddsB, aAtt, aDef, bAt
   const lamA = xG(sA.effAttack, sB.effDefense, lfA);
   const lamB = xG(sB.effAttack, sA.effDefense, lfB);
 
-  // Score matrix
-  const maxG = 7;
-  const matrix = {};
-  for (let i = 0; i <= maxG; i++) {
-    for (let j = 0; j <= maxG; j++) {
-      matrix[`${i},${j}`] = poissonPMF(i, lamA) * poissonPMF(j, lamB);
-    }
-  }
+  const maxG = 7, matrix = {};
+  for (let i = 0; i <= maxG; i++) for (let j = 0; j <= maxG; j++) matrix[`${i},${j}`] = poissonPMF(i, lamA) * poissonPMF(j, lamB);
 
-  // Outcome probs
   let pA = 0, pDraw = 0, pB = 0;
-  for (let i = 0; i <= maxG; i++) {
-    for (let j = 0; j <= maxG; j++) {
-      const p = matrix[`${i},${j}`];
-      if (i > j) pA += p;
-      else if (i === j) pDraw += p;
-      else pB += p;
-    }
+  for (let i = 0; i <= maxG; i++) for (let j = 0; j <= maxG; j++) {
+    const p = matrix[`${i},${j}`];
+    if (i > j) pA += p; else if (i === j) pDraw += p; else pB += p;
   }
-
-  // Top scores
   const scores = [];
-  for (const [k, v] of Object.entries(matrix)) {
-    const [ga, gb] = k.split(',').map(Number);
-    scores.push({ ga, gb, prob: v });
-  }
+  for (const [k, v] of Object.entries(matrix)) { const [ga, gb] = k.split(',').map(Number); scores.push({ga, gb, prob:v}); }
   scores.sort((a, b) => b.prob - a.prob);
-  const top10 = scores.slice(0, 10);
-  const mostLikely = `${top10[0].ga}-${top10[0].gb}`;
+  const top10 = scores.slice(0, 10), mostLikely = `${top10[0].ga}-${top10[0].gb}`;
 
-  // Specials
   let over15 = 0, over25 = 0, over35 = 0, btts = 0;
   for (const s of scores) {
-    const tot = s.ga + s.gb;
-    if (tot > 1.5) over15 += s.prob;
-    if (tot > 2.5) over25 += s.prob;
-    if (tot > 3.5) over35 += s.prob;
-    if (s.ga > 0 && s.gb > 0) btts += s.prob;
+    const tot = s.ga + s.gb; if (tot > 1.5) over15 += s.prob; if (tot > 2.5) over25 += s.prob; if (tot > 3.5) over35 += s.prob; if (s.ga > 0 && s.gb > 0) btts += s.prob;
   }
 
-  // Conditional expectations
-  let expAWin = 0, expAWinConc = 0, totAWin = 0;
-  let expBWin = 0, expBWinConc = 0, totBWin = 0;
+  let expAWin = 0, expAWinConc = 0, totAWin = 0, expBWin = 0, expBWinConc = 0, totBWin = 0;
   for (const s of scores) {
     if (s.ga > s.gb) { expAWin += s.ga * s.prob; expAWinConc += s.gb * s.prob; totAWin += s.prob; }
     if (s.gb > s.ga) { expBWinConc += s.ga * s.prob; expBWin += s.gb * s.prob; totBWin += s.prob; }
@@ -430,112 +399,136 @@ function predict(teamA, teamB, location, oddsA, oddsDraw, oddsB, aAtt, aDef, bAt
   const expAIfWin = totAWin > 0 ? [expAWin/totAWin, expAWinConc/totAWin] : [lamA, 0];
   const expBIfWin = totBWin > 0 ? [expBWinConc/totBWin, expBWin/totBWin] : [0, lamB];
 
-  // Best draw score
   let bestDraw = '1-1', bestDrawP = 0;
-  for (const s of scores) {
-    if (s.ga === s.gb && s.ga > 0 && s.prob > bestDrawP) {
-      bestDrawP = s.prob;
-      bestDraw = `${s.ga}-${s.ga}`;
-    }
-  }
+  for (const s of scores) { if (s.ga === s.gb && s.ga > 0 && s.prob > bestDrawP) { bestDrawP = s.prob; bestDraw = `${s.ga}-${s.ga}`; } }
 
-  // Odds analysis
   let oddsAnalysis = null, blended = null, valueBets = [];
   if (oddsA && oddsDraw && oddsB) {
     const implA = 1/oddsA, implD = 1/oddsDraw, implB = 1/oddsB;
     const sum = implA + implD + implB;
     const fairA = implA/sum, fairD = implD/sum, fairB = implB/sum;
     const overround = sum - 1;
+    blended = { home_win: 0.4*pA + 0.6*fairA, draw: 0.4*pDraw + 0.6*fairD, away_win: 0.4*pB + 0.6*fairB };
+    const keys = [{k:'home_win',l:'A胜'},{k:'draw',l:'平局'},{k:'away_win',l:'B胜'}];
     const model = { home_win: pA, draw: pDraw, away_win: pB };
     const market = { home_win: fairA, draw: fairD, away_win: fairB };
-    const blendW = 0.4;
-    blended = {
-      home_win: blendW * pA + (1-blendW) * fairA,
-      draw: blendW * pDraw + (1-blendW) * fairD,
-      away_win: blendW * pB + (1-blendW) * fairB,
-    };
-
-    const keys = [{k:'home_win',l:'A胜'},{k:'draw',l:'平局'},{k:'away_win',l:'B胜'}];
     for (const {k,l} of keys) {
       const edge = model[k] - market[k];
-      if (edge > 0.05) {
-        const rawOdds = k==='home_win'?oddsA:(k==='draw'?oddsDraw:oddsB);
-        valueBets.push({outcome:l, modelP:model[k], marketP:market[k], edge, odds:rawOdds,
-          rec: edge > 0.1 ? 'STRONG VALUE' : 'LIGHT VALUE'});
-      }
+      if (edge > 0.05) { valueBets.push({outcome:l, modelP:model[k], marketP:market[k], edge, odds:k==='home_win'?oddsA:(k==='draw'?oddsDraw:oddsB), rec: edge>0.1?'STRONG VALUE':'LIGHT VALUE'}); }
     }
-    oddsAnalysis = { raw:{home_win:oddsA,draw:oddsDraw,away_win:oddsB}, implied:{home_win:implA,draw:implD,away_win:implB}, fair:{home_win:fairA,draw:fairD,away_win:fairB}, overround };
+    oddsAnalysis = { raw:{A:oddsA,D:oddsDraw,B:oddsB}, implied:{A:implA,D:implD,B:implB}, fair:{A:fairA,D:fairD,B:fairB}, overround };
   }
 
-  return {
-    sA, sB, lamA, lamB, pA, pDraw, pB,
-    top10, mostLikely, bestDraw,
-    expTotal: lamA + lamB,
-    over15, over25, over35, btts,
-    expAIfWin, expBIfWin,
-    oddsAnalysis, blended, valueBets,
-    location,
-  };
+  const h2h = getH2H(sA.name, sB.name);
+
+  return { sA, sB, lamA, lamB, pA, pDraw, pB, top10, mostLikely, bestDraw, expTotal: lamA+lamB, over15, over25, over35, btts, expAIfWin, expBIfWin, oddsAnalysis, blended, valueBets, h2h, location };
 }
 
 // ==================== RENDER ====================
-function probColor(p) {
-  if (p >= 0.5) return 'var(--win)';
-  if (p >= 0.3) return 'var(--yellow)';
-  return 'var(--lose)';
-}
+function probColor(p) { if (p>=0.5) return 'var(--win)'; if (p>=0.3) return 'var(--yellow)'; return 'var(--lose)'; }
 
 function renderResults(pred) {
   if (pred.error) return `<div class="card"><p style="color:var(--red)">❌ ${pred.error}</p></div>`;
+  const sA=pred.sA, sB=pred.sB;
+  let html='';
 
-  const sA = pred.sA, sB = pred.sB;
-  let html = '';
-
-  // Team comparison
+  // 球队对比
   html += `<div class="card"><h2>📊 球队实力对比</h2>`;
   html += `<div class="result-grid">`;
-  html += `<div class="team-info"><div class="name">${sA.name}</div><div class="rank">FIFA #${sA.rank} · ${sA.pts}分</div><div class="xg">${pred.lamA.toFixed(2)}</div><div style="font-size:0.7em;color:var(--dim)">预期进球</div></div>`;
+  html += `<div class="team-info"><div class="name">${sA.cn}</div><div class="name-cn">${sA.name}</div><div class="rank">FIFA #${sA.rank} · ${sA.pts}分 · ELO ${sA.elo}</div><div class="xg">${pred.lamA.toFixed(2)}</div><div style="font-size:0.7em;color:var(--dim)">预期进球 (xG)</div></div>`;
   html += `<div style="font-weight:700;color:var(--dim);">VS</div>`;
-  html += `<div class="team-info"><div class="name">${sB.name}</div><div class="rank">FIFA #${sB.rank} · ${sB.pts}分</div><div class="xg">${pred.lamB.toFixed(2)}</div><div style="font-size:0.7em;color:var(--dim)">预期进球</div></div>`;
+  html += `<div class="team-info"><div class="name">${sB.cn}</div><div class="name-cn">${sB.name}</div><div class="rank">FIFA #${sB.rank} · ${sB.pts}分 · ELO ${sB.elo}</div><div class="xg">${pred.lamB.toFixed(2)}</div><div style="font-size:0.7em;color:var(--dim)">预期进球 (xG)</div></div>`;
   html += `</div>`;
 
-  // Adjustments
   const adjs = [];
-  if (sA.attackAdj !== 1) adjs.push(`${sA.name}进攻×${sA.attackAdj.toFixed(2)}`);
-  if (sA.defenseAdj !== 1) adjs.push(`${sA.name}防守×${sA.defenseAdj.toFixed(2)}`);
-  if (sB.attackAdj !== 1) adjs.push(`${sB.name}进攻×${sB.attackAdj.toFixed(2)}`);
-  if (sB.defenseAdj !== 1) adjs.push(`${sB.name}防守×${sB.defenseAdj.toFixed(2)}`);
+  if (sA.attackAdj!==1) adjs.push(`${sA.cn}进攻×${sA.attackAdj.toFixed(2)}`);
+  if (sA.defenseAdj!==1) adjs.push(`${sA.cn}防守×${sA.defenseAdj.toFixed(2)}`);
+  if (sB.attackAdj!==1) adjs.push(`${sB.cn}进攻×${sB.attackAdj.toFixed(2)}`);
+  if (sB.defenseAdj!==1) adjs.push(`${sB.cn}防守×${sB.defenseAdj.toFixed(2)}`);
   if (adjs.length) html += `<div style="font-size:0.75em;color:var(--yellow);margin-top:4px;">⚠ 调整: ${adjs.join(', ')}</div>`;
+
+  let venueNote = '';
+  const aHost=HOSTS.has(sA.name), bHost=HOSTS.has(sB.name);
+  if (pred.location==='neutral' && aHost && !bHost) venueNote = `🏟 ${sA.cn}享有东道主优势 (xG +10%)`;
+  else if (pred.location==='neutral' && bHost && !aHost) venueNote = `🏟 ${sB.cn}享有东道主优势 (xG +10%)`;
+  else if (pred.location==='neutral') venueNote = '🏟 中立场地·无主场优势';
+  else if (pred.location==='home') venueNote = `🏟 ${sA.cn}主场 (xG +25%)`;
+  else venueNote = `🏟 ${sB.cn}主场 (xG +25%)`;
+  html += `<div style="font-size:0.73em;color:var(--dim);margin-top:2px;">${venueNote}</div>`;
+
   html += `</div>`;
 
-  // Win/Draw/Loss
+  // H2H
+  if (pred.h2h) {
+    const h=pred.h2h;
+    const total=h.w[0]+h.w[1]+h.w[2];
+    html += `<div class="card"><h2>📜 历史对战</h2><div class="h2h-card">`;
+    html += `<div class="h2h-title">${sA.cn} vs ${sB.cn} · 历史交锋 ${h.m}场</div>`;
+    if (total>0) {
+      html += `<div class="h2h-bar">`;
+      const wp=(h.w[0]/total*100), dp=(h.w[1]/total*100), lp=(h.w[2]/total*100);
+      if (wp>5) html += `<div class="h2h-w" style="width:${wp}%">${sA.cn} ${h.w[0]}胜</div>`;
+      if (dp>5) html += `<div class="h2h-d" style="width:${dp}%">平${h.w[1]}</div>`;
+      if (lp>5) html += `<div class="h2h-l" style="width:${lp}%">${sB.cn} ${h.w[2]}胜</div>`;
+      html += `</div>`;
+    }
+    html += `<div style="font-size:0.75em;color:var(--dim);margin-top:4px;">最近交锋: ${h.last} · ${h.ls}</div>`;
+    html += `<div style="font-size:0.72em;color:var(--yellow);">📌 ${h.note}</div>`;
+    html += `</div></div>`;
+  }
+
+  // 胜平负
   html += `<div class="card"><h2>🎯 胜平负概率</h2>`;
   const bars = [
-    {label:`${sA.name} 胜`, p:pred.pA, cls:'win'},
+    {label:`${sA.cn} 胜`, p:pred.pA, cls:'win'},
     {label:'平局', p:pred.pDraw, cls:'draw'},
-    {label:`${sB.name} 胜`, p:pred.pB, cls:'lose'},
+    {label:`${sB.cn} 胜`, p:pred.pB, cls:'lose'},
   ];
   for (const b of bars) {
-    html += `<div class="prob-bar-wrap">
-      <div class="prob-bar-label"><span>${b.label}</span><span style="color:${probColor(b.p)};font-weight:700;">${(b.p*100).toFixed(1)}%</span></div>
-      <div class="prob-bar-track"><div class="prob-bar-fill ${b.cls}" style="width:${b.p*100}%"></div></div>
-    </div>`;
+    html += `<div class="prob-bar-wrap"><div class="prob-bar-label"><span>${b.label}</span><span style="color:${probColor(b.p)};font-weight:700;">${(b.p*100).toFixed(1)}%</span></div><div class="prob-bar-track"><div class="prob-bar-fill ${b.cls}" style="width:${b.p*100}%"></div></div></div>`;
   }
   html += `</div>`;
 
-  // Top scores
+  // 公允赔率对照表
+  html += `<div class="card"><h2>💹 公允赔率对照</h2>`;
+  html += `<div style="font-size:0.8em;color:var(--dim);margin-bottom:6px;">基于模型概率反推的合理赔率（对比市场赔率判断价值）</div>`;
+  html += `<table class="odds-ref-table"><tr><th>结果</th><th>模型概率</th><th>公允赔率</th><th>市场赔率</th><th>判断</th></tr>`;
+  const outcomes = [
+    {label:`${sA.cn}胜`, p:pred.pA, op:pred.oddsAnalysis?.raw.A, fp:pred.oddsAnalysis?.fair.A},
+    {label:'平局', p:pred.pDraw, op:pred.oddsAnalysis?.raw.D, fp:pred.oddsAnalysis?.fair.D},
+    {label:`${sB.cn}胜`, p:pred.pB, op:pred.oddsAnalysis?.raw.B, fp:pred.oddsAnalysis?.fair.B},
+  ];
+  for (const o of outcomes) {
+    const fo = fairOdds(o.p);
+    const marketOdds = o.op ? o.op.toFixed(2) : '未输入';
+    let verdict = '—';
+    if (o.op) {
+      const edge = o.p - (1/o.op);
+      if (edge > 0.1) verdict = `<span style="color:var(--green);font-weight:700;">🟢 价值</span>`;
+      else if (edge > 0.03) verdict = `<span style="color:var(--yellow);">🟡 微优</span>`;
+      else if (edge < -0.05) verdict = `<span style="color:var(--lose);">🔴 高估</span>`;
+      else verdict = `<span style="color:var(--dim);">⚪ 合理</span>`;
+    }
+    html += `<tr><td>${o.label}</td><td style="color:${probColor(o.p)};font-weight:700;">${(o.p*100).toFixed(1)}%</td><td style="color:var(--cyan);">${fo}</td><td>${marketOdds}</td><td>${verdict}</td></tr>`;
+  }
+  html += `</table>`;
+  if (!pred.oddsAnalysis) html += `<div style="font-size:0.7em;color:var(--dim);margin-top:4px;">💡 输入赔率后可对比公允值，自动识别价值投注</div>`;
+  html += `</div>`;
+
+  // 最可能比分
   html += `<div class="card"><h2>⚽ 最可能比分</h2>`;
-  html += `<table class="score-table"><tr><th>比分</th><th>概率</th><th>结果</th></tr>`;
-  for (let i = 0; i < pred.top10.length; i++) {
-    const s = pred.top10[i];
-    const res = s.ga > s.gb ? `${sA.name}胜` : (s.gb > s.ga ? `${sB.name}胜` : '平局');
-    const tagCls = s.ga > s.gb ? 'tag-win' : (s.gb > s.ga ? 'tag-lose' : 'tag-draw');
-    const marker = i === 0 ? '<span class="score-badge">最佳</span>' : '';
-    html += `<tr><td><strong>${s.ga}-${s.gb}</strong>${marker}</td><td>${(s.prob*100).toFixed(1)}%</td><td><span class="tag ${tagCls}">${res}</span></td></tr>`;
+  html += `<table class="score-table"><tr><th>比分</th><th>概率</th><th>累计</th><th>结果</th></tr>`;
+  let cum=0;
+  for (let i=0;i<pred.top10.length;i++) {
+    const s=pred.top10[i]; cum+=s.prob;
+    const res=s.ga>s.gb?`${sA.cn}胜`:(s.gb>s.ga?`${sB.cn}胜`:'平局');
+    const tagCls=s.ga>s.gb?'tag-win':(s.gb>s.ga?'tag-lose':'tag-draw');
+    const marker=i===0?'<span class="score-badge">最佳</span>':'';
+    html += `<tr><td><strong>${s.ga}-${s.gb}</strong>${marker}</td><td>${(s.prob*100).toFixed(1)}%</td><td>${(cum*100).toFixed(1)}%</td><td><span class="tag ${tagCls}">${res}</span></td></tr>`;
   }
   html += `</table></div>`;
 
-  // Specials
+  // 大小球
   html += `<div class="card"><h2>📈 大小球 & 特殊盘口</h2>`;
   html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85em;">`;
   html += `<div>总进球预期: <strong style="color:var(--accent)">${pred.expTotal.toFixed(2)}</strong></div>`;
@@ -545,171 +538,117 @@ function renderResults(pred) {
   html += `<div>大于3.5球: <strong style="color:${probColor(pred.over35)}">${(pred.over35*100).toFixed(1)}%</strong></div>`;
   html += `</div></div>`;
 
-  // Odds analysis
-  if (pred.oddsAnalysis) {
-    const oa = pred.oddsAnalysis;
-    html += `<div class="card"><h2>💰 赔率分析</h2>`;
-    html += `<div style="font-size:0.8em;margin-bottom:8px;">原始赔率: ${oa.raw.home_win.toFixed(2)} / ${oa.raw.draw.toFixed(2)} / ${oa.raw.away_win.toFixed(2)} &nbsp;|&nbsp; 抽水: ${(oa.overround*100).toFixed(1)}%</div>`;
-    html += `<table class="score-table"><tr><th></th><th>A胜</th><th>平局</th><th>B胜</th></tr>`;
-    html += `<tr><td>隐含概率</td><td>${(oa.implied.home_win*100).toFixed(1)}%</td><td>${(oa.implied.draw*100).toFixed(1)}%</td><td>${(oa.implied.away_win*100).toFixed(1)}%</td></tr>`;
-    html += `<tr><td>公允概率</td><td>${(oa.fair.home_win*100).toFixed(1)}%</td><td>${(oa.fair.draw*100).toFixed(1)}%</td><td>${(oa.fair.away_win*100).toFixed(1)}%</td></tr>`;
-    html += `<tr><td>模型概率</td><td style="color:${probColor(pred.pA)}">${(pred.pA*100).toFixed(1)}%</td><td style="color:${probColor(pred.pDraw)}">${(pred.pDraw*100).toFixed(1)}%</td><td style="color:${probColor(pred.pB)}">${(pred.pB*100).toFixed(1)}%</td></tr>`;
-    html += `<tr><td><strong>融合概率</strong></td><td style="color:var(--cyan);font-weight:700;">${(pred.blended.home_win*100).toFixed(1)}%</td><td style="color:var(--cyan);font-weight:700;">${(pred.blended.draw*100).toFixed(1)}%</td><td style="color:var(--cyan);font-weight:700;">${(pred.blended.away_win*100).toFixed(1)}%</td></tr>`;
-    html += `</table>`;
-
-    if (pred.valueBets.length) {
-      html += `<div style="margin-top:10px;"><strong style="color:var(--green);">💎 价值投注:</strong></div>`;
-      for (const vb of pred.valueBets) {
-        html += `<div style="font-size:0.78em;margin:4px 0;">→ ${vb.outcome}: 模型${(vb.modelP*100).toFixed(1)}% vs 市场${(vb.marketP*100).toFixed(1)}% (优势${(vb.edge*100).toFixed(1)}%) @${vb.odds} <span class="tag tag-value">${vb.rec}</span></div>`;
-      }
-    } else {
-      html += `<div style="margin-top:8px;font-size:0.78em;color:var(--dim);">模型与市场基本一致，未发现明显价值偏差</div>`;
+  // 赔率价值
+  if (pred.valueBets && pred.valueBets.length) {
+    html += `<div class="card" style="border-color:var(--green);"><h2>💎 价值投注</h2>`;
+    for (const vb of pred.valueBets) {
+      html += `<div style="font-size:0.82em;margin:4px 0;">→ <strong>${vb.outcome}</strong>: 模型${(vb.modelP*100).toFixed(1)}% vs 市场${(vb.marketP*100).toFixed(1)}% (优势${(vb.edge*100).toFixed(1)}%) @${vb.odds} <span class="tag tag-value">${vb.rec}</span></div>`;
     }
     html += `</div>`;
   }
 
-  // Final summary
+  // 综合
   const finalProbs = pred.blended || { home_win: pred.pA, draw: pred.pDraw, away_win: pred.pB };
-  const sorted = [
-    {label:`${sA.name} 胜`, p:finalProbs.home_win},
-    {label:'平局', p:finalProbs.draw},
-    {label:`${sB.name} 胜`, p:finalProbs.away_win},
-  ].sort((a,b) => b.p - a.p);
-
+  const sorted = [{label:`${sA.cn} 胜`, p:finalProbs.home_win},{label:'平局', p:finalProbs.draw},{label:`${sB.cn} 胜`, p:finalProbs.away_win}].sort((a,b)=>b.p-a.p);
   html += `<div class="card" style="border-color:var(--accent);"><h2>🏆 综合预测</h2>`;
   html += `<div style="font-size:1.1em;margin:8px 0;">最可能结果: <strong style="color:var(--green);">${sorted[0].label}</strong> (${(sorted[0].p*100).toFixed(1)}%)</div>`;
   html += `<div style="font-size:0.9em;">最可能比分: <strong style="color:var(--cyan);font-size:1.2em;">${pred.mostLikely}</strong></div>`;
-  if (pred.pA > 0.1) html += `<div style="font-size:0.78em;color:var(--dim);margin-top:4px;">若${sA.name}胜 → ${pred.expAIfWin[0].toFixed(1)} - ${pred.expAIfWin[1].toFixed(1)}</div>`;
-  if (pred.pDraw > 0.1) html += `<div style="font-size:0.78em;color:var(--dim);">最可能平局: ${pred.bestDraw}</div>`;
-  if (pred.pB > 0.1) html += `<div style="font-size:0.78em;color:var(--dim);">若${sB.name}胜 → ${pred.expBIfWin[0].toFixed(1)} - ${pred.expBIfWin[1].toFixed(1)}</div>`;
+  if (pred.pA>0.1) html += `<div style="font-size:0.78em;color:var(--dim);margin-top:4px;">若${sA.cn}胜 → ${pred.expAIfWin[0].toFixed(1)} - ${pred.expAIfWin[1].toFixed(1)}</div>`;
+  if (pred.pDraw>0.1) html += `<div style="font-size:0.78em;color:var(--dim);">最可能平局: ${pred.bestDraw}</div>`;
+  if (pred.pB>0.1) html += `<div style="font-size:0.78em;color:var(--dim);">若${sB.cn}胜 → ${pred.expBIfWin[0].toFixed(1)} - ${pred.expBIfWin[1].toFixed(1)}</div>`;
   html += `</div>`;
 
   return html;
 }
 
-// ==================== UI LOGIC ====================
+// ==================== UI ====================
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    t.classList.toggle('active', ['match','group','about'][i] === tab);
-  });
-  document.getElementById('tab-match').style.display = tab === 'match' ? 'block' : 'none';
-  document.getElementById('tab-group').style.display = tab === 'group' ? 'block' : 'none';
-  document.getElementById('tab-about').style.display = tab === 'about' ? 'block' : 'none';
-  if (tab === 'group') initGroupTab();
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['match','group','about'][i]===tab));
+  document.getElementById('tab-match').style.display=tab==='match'?'block':'none';
+  document.getElementById('tab-group').style.display=tab==='group'?'block':'none';
+  document.getElementById('tab-about').style.display=tab==='about'?'block':'none';
+  if (tab==='group') initGroupTab();
 }
+function toggleOdds(){document.getElementById('oddsRow').style.display=document.getElementById('oddsToggle').checked?'grid':'none';}
+function toggleAdj(){document.getElementById('adjRow').style.display=document.getElementById('adjToggle').checked?'block':'none';}
 
-function toggleOdds() {
-  document.getElementById('oddsRow').style.display = document.getElementById('oddsToggle').checked ? 'grid' : 'none';
-}
-function toggleAdj() {
-  document.getElementById('adjRow').style.display = document.getElementById('adjToggle').checked ? 'block' : 'none';
-}
-
-// Team dropdown
-const allTeams = Object.keys(FIFA_RANKINGS).sort();
+const allTeams = Object.keys(TEAMS).sort();
 function showDropdown(side) {
-  const input = document.getElementById('team'+side);
-  const dd = document.getElementById('dd-'+side);
-  const q = input.value.toLowerCase().trim();
-  dd.innerHTML = '';
-  const filtered = q ? allTeams.filter(t => t.toLowerCase().includes(q)) : allTeams;
-  for (const t of filtered.slice(0, 20)) {
-    const div = document.createElement('div');
-    const d = FIFA_RANKINGS[t];
-    div.textContent = `${t} (FIFA #${d.rank})`;
-    div.onclick = () => { input.value = t; dd.classList.remove('show'); };
+  const input=document.getElementById('team'+side), dd=document.getElementById('dd-'+side);
+  const q=input.value.toLowerCase().trim();
+  dd.innerHTML='';
+  const filtered=[];
+  for (const t of allTeams) {
+    const d=TEAMS[t];
+    const match = t.toLowerCase().includes(q) || d.cn.includes(q) || q.includes(d.cn) || (ALIASES[q]&&ALIASES[q]===t);
+    if (match || !q) filtered.push(t);
+  }
+  for (const t of filtered.slice(0,20)) {
+    const d=TEAMS[t];
+    const div=document.createElement('div');
+    div.innerHTML=`<span class="cn-name">${d.cn}</span><span class="en-name">${t} (FIFA #${d.r})</span>`;
+    div.onclick=()=>{input.value=d.cn;dd.classList.remove('show');};
     dd.appendChild(div);
   }
-  dd.classList.toggle('show', filtered.length > 0);
+  dd.classList.toggle('show',filtered.length>0);
 }
+document.addEventListener('click',(e)=>{if(!e.target.closest('.team-select')) document.querySelectorAll('.team-dropdown').forEach(d=>d.classList.remove('show'));});
 
-// Close dropdowns on outside click
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.team-select')) {
-    document.querySelectorAll('.team-dropdown').forEach(d => d.classList.remove('show'));
-  }
-});
-
-// Run analysis
 function runAnalysis() {
-  const teamA = document.getElementById('teamA').value.trim();
-  const teamB = document.getElementById('teamB').value.trim();
-  if (!teamA || !teamB) { alert('请输入两支球队'); return; }
-
-  const location = document.getElementById('location').value;
-  let oddsA=null, oddsDraw=null, oddsB=null;
+  const teamA=document.getElementById('teamA').value.trim(), teamB=document.getElementById('teamB').value.trim();
+  if (!teamA||!teamB){alert('请输入两支球队');return;}
+  const location=document.getElementById('location').value;
+  let oddsA=null,oddsDraw=null,oddsB=null;
   if (document.getElementById('oddsToggle').checked) {
-    oddsA = parseFloat(document.getElementById('oddsA').value) || null;
-    oddsDraw = parseFloat(document.getElementById('oddsDraw').value) || null;
-    oddsB = parseFloat(document.getElementById('oddsB').value) || null;
+    oddsA=parseFloat(document.getElementById('oddsA').value)||null;
+    oddsDraw=parseFloat(document.getElementById('oddsDraw').value)||null;
+    oddsB=parseFloat(document.getElementById('oddsB').value)||null;
   }
-  const aAtt = parseFloat(document.getElementById('aAtt').value) || 1.0;
-  const aDef = parseFloat(document.getElementById('aDef').value) || 1.0;
-  const bAtt = parseFloat(document.getElementById('bAtt').value) || 1.0;
-  const bDef = parseFloat(document.getElementById('bDef').value) || 1.0;
-
-  const pred = predict(teamA, teamB, location, oddsA, oddsDraw, oddsB, aAtt, aDef, bAtt, bDef);
-  document.getElementById('results').innerHTML = renderResults(pred);
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+  const aAtt=parseFloat(document.getElementById('aAtt').value)||1.0,aDef=parseFloat(document.getElementById('aDef').value)||1.0;
+  const bAtt=parseFloat(document.getElementById('bAtt').value)||1.0,bDef=parseFloat(document.getElementById('bDef').value)||1.0;
+  const pred=predict(teamA,teamB,location,oddsA,oddsDraw,oddsB,aAtt,aDef,bAtt,bDef);
+  document.getElementById('results').innerHTML=renderResults(pred);
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
 }
 
-// Group tab
 function initGroupTab() {
-  const sel = document.getElementById('groupSelect');
-  if (sel.options.length > 1) return;
+  const sel=document.getElementById('groupSelect');
+  if (sel.options.length>1) return;
   for (const g of Object.keys(GROUPS).sort()) {
-    const opt = document.createElement('option');
-    opt.value = g;
-    opt.textContent = `小组 ${g}: ${GROUPS[g].join(', ')}`;
+    const opt=document.createElement('option'); opt.value=g;
+    opt.textContent=`小组 ${g}: ${GROUPS[g].map(t=>TEAMS[t]?.cn||t).join('、')}`;
     sel.appendChild(opt);
   }
 }
-
 function showGroup() {
-  const g = document.getElementById('groupSelect').value;
-  if (!g) { document.getElementById('groupResults').innerHTML = ''; return; }
-  const teams = GROUPS[g];
-  let html = `<div style="font-size:0.85em;">`;
-  html += `<div style="margin:8px 0;font-weight:700;">球队实力排序:</div>`;
-  const ranked = teams.map(t => {
-    const d = FIFA_RANKINGS[t];
-    const st = buildStrength(t);
-    return { name:t, rank:d?.rank||99, pts:d?.pts||0, att:st?.attack||0, def:st?.defense||0 };
-  }).sort((a,b) => a.rank - b.rank);
-  html += `<table class="score-table"><tr><th>球队</th><th>排名</th><th>进攻</th><th>防守</th></tr>`;
+  const g=document.getElementById('groupSelect').value;
+  if (!g){document.getElementById('groupResults').innerHTML='';return;}
+  const teams=GROUPS[g];
+  let html=`<div style="font-size:0.85em;">`;
+  html+=`<div style="margin:8px 0;font-weight:700;">球队实力排序:</div>`;
+  const ranked=teams.map(t=>({name:t,cn:TEAMS[t]?.cn||t,...TEAMS[t]})).sort((a,b)=>(a.r||99)-(b.r||99));
+  html+=`<table class="score-table"><tr><th>球队</th><th>FIFA排名</th><th>积分</th><th>进攻</th><th>防守</th></tr>`;
   for (const r of ranked) {
-    html += `<tr><td>${r.name}</td><td>#${r.rank}</td><td>${r.att.toFixed(2)}</td><td>${r.def.toFixed(2)}</td></tr>`;
+    const st=buildStrength(r.name);
+    html+=`<tr><td>${r.cn} <span style="font-size:0.7em;color:var(--dim);">${r.name}</span></td><td>#${r.r}</td><td>${r.p}</td><td>${st?.attack.toFixed(2)||'—'}</td><td>${st?.defense.toFixed(2)||'—'}</td></tr>`;
   }
-  html += `</table>`;
-
-  html += `<div style="margin:12px 0;font-weight:700;">对阵预测:</div>`;
-  for (let i = 0; i < teams.length; i++) {
-    for (let j = i+1; j < teams.length; j++) {
-      const pred = predict(teams[i], teams[j], 'neutral');
-      if (pred.error) continue;
-      html += `<div style="background:var(--card2);border-radius:8px;padding:10px;margin:8px 0;">
-        <strong>${teams[i]} vs ${teams[j]}</strong><br>
-        <span style="font-size:0.8em;">胜平负: <span style="color:var(--win)">${(pred.pA*100).toFixed(0)}%</span> / <span style="color:var(--draw)">${(pred.pDraw*100).toFixed(0)}%</span> / <span style="color:var(--lose)">${(pred.pB*100).toFixed(0)}%</span></span><br>
-        <span style="font-size:0.78em;color:var(--dim);">最可能: ${pred.mostLikely} | xG: ${pred.lamA.toFixed(2)}-${pred.lamB.toFixed(2)}</span>
-      </div>`;
-    }
+  html+=`</table><div style="margin:12px 0;font-weight:700;">对阵预测:</div>`;
+  for (let i=0;i<teams.length;i++) for (let j=i+1;j<teams.length;j++) {
+    const pred=predict(teams[i],teams[j],'neutral');
+    if (pred.error) continue;
+    const cnA=TEAMS[teams[i]]?.cn||teams[i], cnB=TEAMS[teams[j]]?.cn||teams[j];
+    html+=`<div style="background:var(--card2);border-radius:8px;padding:10px;margin:8px 0;">`;
+    html+=`<strong>${cnA} vs ${cnB}</strong><br>`;
+    html+=`<span style="font-size:0.8em;">胜平负: <span style="color:var(--win)">${(pred.pA*100).toFixed(0)}%</span> / <span style="color:var(--draw)">${(pred.pDraw*100).toFixed(0)}%</span> / <span style="color:var(--lose)">${(pred.pB*100).toFixed(0)}%</span></span><br>`;
+    html+=`<span style="font-size:0.78em;color:var(--dim);">最可能: ${pred.mostLikely} | xG: ${pred.lamA.toFixed(2)}-${pred.lamB.toFixed(2)}</span></div>`;
   }
-  html += `</div>`;
-  document.getElementById('groupResults').innerHTML = html;
+  html+=`</div>`; document.getElementById('groupResults').innerHTML=html;
 }
+document.addEventListener('keydown',(e)=>{if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='teamB')runAnalysis();});
 
-// Keyboard shortcut
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'teamB') {
-    runAnalysis();
-  }
-});
-
-// Init
 document.getElementById('results').innerHTML = `<div class="card" style="text-align:center;color:var(--dim);padding:32px;">
-  <div style="font-size:1.5em;margin-bottom:8px;">⚽</div>
-  输入两支球队，点击"开始分析"<br>
-  <span style="font-size:0.8em;">试试: Germany vs Curacao | Netherlands vs Japan</span>
+  <div style="font-size:1.5em;margin-bottom:8px;">⚽</div>输入两支球队（支持中文搜索），点击"开始分析"<br>
+  <span style="font-size:0.8em;">试试: 德国 vs 库拉索 | 荷兰 vs 日本 | 阿根廷 vs 法国</span>
 </div>`;
 </script>
 </body>
